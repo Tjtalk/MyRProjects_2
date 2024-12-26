@@ -107,6 +107,7 @@ fit <- auto.arima(ts_weekly_calls, seasonal = TRUE, stepwise = TRUE)
 
 ```{r}
 # Forecast future weekly call volume
+# Forecast future weekly call volume
 forecasted_calls <- forecast(fit, h = 12)
 ```
 
