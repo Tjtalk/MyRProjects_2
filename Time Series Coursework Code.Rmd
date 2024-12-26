@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ```{r}
 # Load required libraries
 library(forecast)
@@ -53,3 +54,60 @@ fit <- auto.arima(ts_weekly_calls, seasonal = TRUE, stepwise = TRUE)
 forecasted_calls <- forecast(fit, h = 12)
 ```
 
+=======
+```{r}
+# Load required libraries
+library(forecast)
+library(lubridate)
+library(dplyr)
+library(writexl)
+```
+
+```{r}
+setwd("C:/Users/talk2/OneDrive/Time series")
+
+library(readr)
+df <- read_csv("MAT005 - Coursework data (2).csv")
+View(df)
+```
+
+```{r}
+str(df)
+```
+
+```{r}
+# Convert to date and time
+df$Date_Incoming_call <- as.Date(df$Date_Incoming_call, format = "%d/%m/%Y")
+df$Incoming_Call_Time <- as.POSIXct(df$Incoming_Call_Time, format="%H:%M:%S")
+```
+
+```{r}
+# Aggregate data to weekly call volume
+df$Week <- floor_date(df$Date_Incoming_call, "week")
+weekly_calls <- df %>%
+  group_by(Week) %>%
+  summarise(Weekly_Call_Volume = n())
+```
+
+
+
+```{r}
+print(weekly_calls)
+```
+
+```{r}
+# Convert data frame to time series object
+ts_weekly_calls <- ts(weekly_calls$Weekly_Call_Volume, frequency = 52)
+```
+
+```{r}
+# Fit an ARIMA model
+fit <- auto.arima(ts_weekly_calls, seasonal = TRUE, stepwise = TRUE)
+```
+
+```{r}
+# Forecast future weekly call volume
+forecasted_calls <- forecast(fit, h = 12)
+```
+
+>>>>>>> cefb6bdd85f85e097ae559e10aa8fe85b8652871
